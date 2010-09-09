@@ -1,0 +1,168 @@
+graphicore Bitmap Font Building, graphicoreBMFB
+
+This program builds fonts from a custom format "Bitmap Font" (BMF) into
+ready to use OpenType format, or anything the used generator is capable of.
+By using different parameters varying fonts are generated. Attached to
+the program is the source data of graphicore Bitmap Font in the BMF format
+licensed under the SIL Open Font License (OFL).
+
+There is a blog post telling more:
+english: http://graphicore.de/en/archive/2010-09-09_A-Brute-Font-Attack
+german: http://graphicore.de/de/archive/2010-09-09_A-Brute-Font-Attack
+
+
+graphicore Bitmap Font Building, this program builds bitmap fonts
+Copyright (c) 2010, Lasse Fister lasse@graphicore.de, http://graphicore.de
+
+graphicore Bitmap Font Building is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+additional Disclaimer
+-----------------------
+English is not my mother tongue, it's German. I'm sorry for inconveniences caused by that.
+
+What You'll Need:
+-----------------------
+* Linux -- I use Linux and didn't try anything else with the code. Help for other systems will find a place here if you provide it.
+
+* I have Python 2.6.5 on my box
+    I import from the Python Standard Library:
+        from __future__ import with_statement #backward compatibility
+        import sys, os, re, codecs, math, json, random
+        from optparse import OptionParser #in ./bmfb.py
+
+
+
+* fontforge (The Python bindings of fontforge)
+    On Debian and Ubuntu the package is called python-fontforge
+    $ sudo apt-get install python-fontforge
+
+    if you can type in python:
+    >>> import fontforge
+    without bad things happening (like: ImportError: No module named fontforge) you should be fine
+
+    on my machine, the fontforge version is 20100429, that works:
+    >>> fontforge.version()
+    '20100429'
+
+Quickstart (on Linux):
+-----------------------
+# go to the rootdir (of the extracted contents of the archive)
+$ cd /the/dir/where/this/README/is/located
+
+# build one font
+$ ./bmfb.py ./BMFonts/graphicoreBitmapFont/BitmapFont0Medium.jsn
+
+now, in ./generated should be
+* graphicoreBitmapFont0-Medium.sfd #that's the fileformat of FontForge
+* graphicoreBitmapFont0-Medium.otf #the OpenType font
+
+# if that worked you can build all fonts from all .jsn files in ./BMFonts/graphicoreBitmapFont/ That will take a while
+$ ./start.sh
+
+
+Commandline Options
+-----------------------
+All actions make files in the ./generated folder, the source file should not be touched (if its not in the ./generated folder and named like the output of the action)
+
+#to get some more help
+$ ./bmfb.py -h
+
+#bmfb.py takes as last argument always the path to the json file that defines the font
+$ ./bmfb.py ./BMFonts/graphicoreBitmapFont/BitmapFont0Medium.jsn
+
+#any other thing goes inbetween:
+./bmfb.py -a classes -l 1 -r 1 -v 3 ./BMFonts/graphicoreBitmapFont/BitmapFont0Medium.jsn
+
+#if action is "dist" there is an argument for the name of the kerning class, that is second to last.
+./bmfb.py -a dist -v 1 @_1R_1_2Y2N3Y5N -R 1 ./BMFonts/graphicoreBitmapFont/BitmapFont0Medium.jsn
+
+
+Full Contact
+-----------------------
+If you haven't already you propably want to learn python: http://wiki.python.org/moin/BeginnersGuide
+
+I'll not give you a step by step instruction because there is one -- the code.
+Read it, it's not so complex and there are some docstrings and comments.
+Apropos docstrings, they are useful:
+$ python
+>>> import graphicoreBMFB
+>>> help(graphicoreBMFB)
+
+Jump into the code at ./bmfb.py -- that's how i use the graphicoreBMFB module
+All the classes are yet in the ./graphicoreBMFB/__init__.py file. That fact will change one day i think.
+
+There is a FontForge-Python documentation: http://fontforge.sourceforge.net/python.html
+In general the FontForge people do a great job at http://fontforge.sourceforge.net
+If you feel lost in the Python docs get an idea of the matter from the gui docs and by using
+fontforge itself.
+
+All other documentations of imported modules are available here: http://docs.python.org/modindex.html
+
+The Folder and File Structure of this Package:
+-----------------------
+./BMFonts/ #there are the BMFs stored, some files in a folder, that's totally optional
+./BMFonts/graphicoreBitmapFont/# the graphicore Bitmap Font BMF, more to that is beyond
+./generated/ #the output goes there, files in this folder are NOT save, initially empty
+./graphicoreBMFB/ #here are the module files. One at the moment, more as soon as needed ...
+./graphicoreBMFB/__init__.py #all the important stuff
+./bmfb.py #the command line tool
+./LICENSE #the GNU Affero General Public License
+./README #this file
+./start.sh #build all fonts from all .jsn files in ./BMFonts/graphicoreBitmapFont/ That will take a seccond
+
+
+The Bitmap Font (BMF) Format:
+-----------------------
+Uually it's a Folder named after the typeface it contains
+There are two things currently: options and glyphs
+
+Glyphs are in a folder called "glyphs" that name can be overwritten by the options
+(you should rather not do that, but you can) in that folder are glyphs stored in
+simple files like that capital A:
+$ more ./BMFonts/graphicoreBitmapFont/glyphs/aCap.txt
+...........
+........###
+.......###.
+......####.
+.....##.##.
+....##..##.
+.. #######.
+..##....##.
+.##.....###
+##.........
+...........
+...........
+A glyph has no sidebearing, that information is stored class based in the features.distances table of the options
+
+
+Everything not beeing a glyph and ends with .jsn is an options-file, these are stored as JSON
+http://www.json.org/
+
+Options can inherit from each other, the last defined json file is the strongest.
+They must specify their ancestors in their root object like that:
+{
+    "inherit": ["glyphs.jsn", "kerning.jsn", "ligatures.jsn"]
+}
+This will load ligatures.json first and all its ancestors, then kerning.jsn and all its ancestors, and so on.
+If an option is already set, it will not be overwritten by ancestors.
+Options are only set in the root element and in its direct children if these are dicts, there is no deeper copying.
+The graphicoreBitmapFont shows how to use BMF options.
+The defaults dict in ./graphicoreBMFB/__init__.py has some comments and the default values
+
+
+
+Im afraid that there is not more documentation right now. You'll have to study the sources.
+
+Enjoy! Lasse
