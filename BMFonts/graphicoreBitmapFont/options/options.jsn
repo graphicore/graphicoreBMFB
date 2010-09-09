@@ -1,0 +1,23 @@
+{
+    "inherit": ["glyphs.jsn", "kerning.jsn", "ligatures.jsn"],
+    "metadata" :
+    {
+        "copyright" : "with Reserved Font Name \"graphicore Bitmap Font 0/1/2/3/4/.../infinito\"\r\n\r\nThis Font Software is licensed under the SIL Open Font License, Version 1.1.\r\nYou should have received a copy of the license along with this Font Software\r\neither in stand-alone text files, human-readable headers or in the appropriate\r\nmachine-readable metadata fields within text or binary files.\r\n\r\nIf this is not the case, go to http://scripts.sil.org/OFL for all\r\nthe details including a FAQ.\r\n\r\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY\r\nWARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A\r\nPARTICULAR PURPOSE. See the SIL Open Font License for more details.",
+        "comment": "There might always be a newer version of this font, visit http://graphicore.de for information."
+    },
+    "font" :
+    {
+        "glyphFolder" : "glyphs",
+        "height" : 12,
+        "descent" : 3,
+        "upos" : 2,
+        "filled" : "#",
+        "empty" : "."
+    },
+    "generator":
+    {
+        "unit" : 125,
+        "em" : 1000,
+        "emDescent": 200
+    }
+}

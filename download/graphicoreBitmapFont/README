@@ -1,0 +1,33 @@
+graphicore Bitmap Font
+
+is a Bitmap Typeface that was early inspired by Underwares “Sauna bold italic swash”
+and eventually went on it‘s own way. It‘s crisp on the screen at a size of 8px and
+multiples thereof. However the intended use case lies rather in display sizes.
+Using these fonts is a statement towards the core elements of perception of our
+times — pixels. Resolution is finite. Anti-aliasing is a lie!
+
+The typeface itself is defined in a custom format where the glyphs are stored in
+text-files idiomatically as bitmaps. Like in the Ascii-Art above a dot stands for
+“no pixel” and the Numbersign marks the opposite. This is what I believe a
+bitmap font should be like — made out of bitmaps. The Character editing was done
+in a simple text editor program.
+
+There is a blog post telling more:
+english: http://graphicore.de/en/archive/2010-09-09_A-Brute-Font-Attack
+german: http://graphicore.de/de/archive/2010-09-09_A-Brute-Font-Attack
+
+There you’ll find the sources and the code, too.
+
+Copyright (c) 2010, Lasse Fister lasse@graphicore.de, http://graphicore.de
+with Reserved Font Name "graphicore Bitmap Font"
+
+All files in this folder are part of the font software.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is in a file called LICENSE somewhere close to this README file
+and a file called LICENSE-FAQ.txt should be there, too.
+If one of these files isn't there go to http://scripts.sil.org/OFL
+
+
+
+Enjoy! Lasse
